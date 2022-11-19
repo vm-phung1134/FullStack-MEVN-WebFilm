@@ -1,47 +1,36 @@
 const { ObjectId } = require("mongodb");
 
-class FilmModel {
+class SessionModel {
     constructor(client) {
-        this.film = client.db().collection("films");
+        this.session = client.db().collection("sessions");
     }
 
     extractConactData(payload) {
-        const film = {
-            title: payload.title,
-            image: payload.image,
-            plot: payload.plot,
-            country: payload.country,
-            type: payload.type,
-            director: payload.director,
-            actors: payload.actors,
-            name: payload.name,
-            duration: payload.duration,
-            date: payload.date,
-            year: payload.year,
-            favorite: payload.favorite,
-            hours: payload.hours,
+        const session = {
+            date:payload.dates,
+            type:payload.type,
         };
 
         // remove undefined fields
-        Object.keys(film).forEach(
-            (key) => film[key] === undefined && delete film[key]
+        Object.keys(session).forEach(
+            (key) => session[key] === undefined && delete session[key]
         );
 
-        return film;
+        return session;
     }
 
     async create(payload) {
-        const film = this.extractConactData(payload);
-        const result = await this.film.findOneAndUpdate(
-            film,
-            { $set: { favorite: film.favorite === true } },
+        const session = this.extractConactData(payload);
+        const result = await this.session.findOneAndUpdate(
+            session,
+            { $set: { favorite: session.favorite === true } },
             { returnDocument: "after", upsert: true }
         );
         return result.value;
     }
 
     async find(filter) {
-        const cursor = await this.film.find(filter);
+        const cursor = await this.session.find(filter);
         return await cursor.toArray();
     }
 
@@ -52,7 +41,7 @@ class FilmModel {
     }
 
     async findById(id) {
-        return await this.film.findOne({
+        return await this.session.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -63,7 +52,7 @@ class FilmModel {
         };
 
         const update = this.extractConactData(payload);
-        const result = await this.film.findOneAndUpdate(
+        const result = await this.session.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -73,15 +62,15 @@ class FilmModel {
     }
 
     async delete(id) {
-        const result = await this.film.findOneAndDelete({
+        const result = await this.session.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
     async deleteAll() {
-        const result = await this.film.deleteMany({});
+        const result = await this.session.deleteMany({});
         return result.deletedCount;
     }
 }
 
-module.exports = FilmModel;
+module.exports = SessionModel;

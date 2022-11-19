@@ -52,6 +52,21 @@
                     <label class="form-label">Tóm tắt phim</label>
                     <textarea v-model="film.plot" class="form-control" style="height: 100px"></textarea>
                 </div>
+                <div class="mb-5">
+                    <div class="dropdown">
+                        <button type="button" class="hover-btn btn border-dark dropdown-toggle w-50" data-toggle="dropdown">
+                          Thời gian chiếu
+                        </button>
+                        <div class="dropdown-menu w-50">
+                            <div>
+                                <input class="w-100 hover-btn" type="text" placeholder="1">
+                                <input class="w-100 hover-btn" type="text" placeholder="2">
+                                <input class="w-100 hover-btn" type="text" placeholder="3">
+                                <input class="w-100 hover-btn" type="text" placeholder="4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-cinema">Thêm mới</button>
             </form> 
         </div>
@@ -65,7 +80,7 @@
             {
             film:{
                 name: '',title: '',image: '', plot: '', actors:'',
-                director:'', type: '', country: '', year: '', date: '', duration:''    
+                director:'', type: '', country: '', year: '', date: '', duration:'' , hours:[]   
             }
             
         }),

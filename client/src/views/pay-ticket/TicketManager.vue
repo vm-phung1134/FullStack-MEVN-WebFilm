@@ -23,7 +23,7 @@
                     <p>Vị trí ghế: {{ticket.seat}}</p>
                     <p>Gói Combo: {{ticket.combo}} </p>
                     <p>Số tiền đã thanh toán: <span>{{ticket.subtotal}}.000 VNĐ</span></p>
-                    <button @click="deleteTicket(ticket._id)" class="border-cinema font-weight-light" data-toggle="modal" data-target="#exampleModal">HỦY ĐẶT VÉ</button>
+                    <button  class="border-cinema font-weight-light" data-toggle="modal" data-target="#exampleModal">HỦY ĐẶT VÉ</button>
                 </div>  <!--@click="deleteTicket(ticket._id)"-->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -38,10 +38,8 @@
                             <p class="text-center">Bạn có chắc muốn hủy vé không?</p>
                         </div>
                         <div class="p-3">
-                            <button  type="button" class="bg-cinema rounded font-weight-light w-100" data-dismiss="modal">
-                                <router-link :to="{ name: 'pay-ticket'}" class="text-white text-decoration-none" link>
-                                    Chấp Nhận <i class="far fa-check-circle"></i>
-                                </router-link>
+                            <button data-toggle="modal" data-target="#exampleModal" type="button" class="bg-cinema rounded font-weight-light w-100" @click="deleteTicket(ticket._id, index)">
+                                Chấp Nhận
                             </button>                        
                         </div>
                       </div>
@@ -89,10 +87,10 @@
             this.id = e.target.value;
         }
         ,
-        async deleteTicket(id){
+        async deleteTicket(id, index){
             try{
                 await APITicket.delete(id);
-                console.log('xoa ok');
+                this.tickets.splice(index, 1);
             }catch(e){
                 console.log(e);
             }

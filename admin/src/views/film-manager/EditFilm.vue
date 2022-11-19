@@ -50,7 +50,19 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Tóm tắt phim</label>
-                    <textarea v-model="film.plot" class="form-control" style="height: 100px"></textarea>
+                    <textarea v-model="film.plot" class="form-control" style="height: 250px"></textarea>
+                </div>
+                <div class="mb-5">
+                    <div class="dropdown">
+                        <button type="button" class="hover-btn btn border-dark dropdown-toggle w-50" data-toggle="dropdown">
+                          Thời gian chiếu
+                        </button>
+                        <div class="dropdown-menu w-50">
+                            <div v-for="hour in film.hours" :key="hour">
+                                <input class="w-100 hover-btn" type="text" :value="hour.hrs">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-cinema mr-2">Cập Nhật</button>
                 <button type="submit" class="btn btn-danger p-2 text-white" @click=" deleteFilm()">Xóa Phim</button>
@@ -65,7 +77,7 @@
             {
             film:{
                 name: '',title: '',image: '', plot: '', actors:'',
-                director:'', type: '', country: '', year: '', date: '', duration:''    
+                director:'', type: '', country: '', year: '', date: '', duration:'' , hours:[]   
             }
             
         }),
@@ -98,5 +110,9 @@
 <style>
 .font-label label{
     font-weight: 500;
+}
+.hover-btn:focus{
+    box-shadow: none;
+    outline: none;
 }
 </style>

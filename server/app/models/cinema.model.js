@@ -1,47 +1,35 @@
 const { ObjectId } = require("mongodb");
 
-class FilmModel {
+class CinemaModel {
     constructor(client) {
-        this.film = client.db().collection("films");
+        this.cinema = client.db().collection("cinemas");
     }
 
     extractConactData(payload) {
-        const film = {
-            title: payload.title,
-            image: payload.image,
-            plot: payload.plot,
-            country: payload.country,
-            type: payload.type,
-            director: payload.director,
-            actors: payload.actors,
+        const cinema = {
             name: payload.name,
-            duration: payload.duration,
-            date: payload.date,
-            year: payload.year,
-            favorite: payload.favorite,
-            hours: payload.hours,
         };
 
         // remove undefined fields
-        Object.keys(film).forEach(
-            (key) => film[key] === undefined && delete film[key]
+        Object.keys(cinema).forEach(
+            (key) => cinema[key] === undefined && delete cinema[key]
         );
 
-        return film;
+        return cinema;
     }
 
     async create(payload) {
-        const film = this.extractConactData(payload);
-        const result = await this.film.findOneAndUpdate(
-            film,
-            { $set: { favorite: film.favorite === true } },
+        const cinema = this.extractConactData(payload);
+        const result = await this.cinema.findOneAndUpdate(
+            cinema,
+            { $set: { favorite: cinema.favorite === true } },
             { returnDocument: "after", upsert: true }
         );
         return result.value;
     }
 
     async find(filter) {
-        const cursor = await this.film.find(filter);
+        const cursor = await this.cinema.find(filter);
         return await cursor.toArray();
     }
 
@@ -52,7 +40,7 @@ class FilmModel {
     }
 
     async findById(id) {
-        return await this.film.findOne({
+        return await this.cinema.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -63,7 +51,7 @@ class FilmModel {
         };
 
         const update = this.extractConactData(payload);
-        const result = await this.film.findOneAndUpdate(
+        const result = await this.cinema.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -73,15 +61,11 @@ class FilmModel {
     }
 
     async delete(id) {
-        const result = await this.film.findOneAndDelete({
+        const result = await this.cinema.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
-    async deleteAll() {
-        const result = await this.film.deleteMany({});
-        return result.deletedCount;
-    }
 }
 
-module.exports = FilmModel;
+module.exports = CinemaModel;

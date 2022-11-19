@@ -21,33 +21,34 @@
             <div class="col" v-if="tabSelect1!='null'">
                 <p class="p-2 color-text-title text-center mb-0">LỰA CHỌN RẠP CHIẾU &ensp; <i class="fas fa-caret-down"></i></p>
                     <!--changtabs2 nhan lay gia tri thay doi -->
-                <select @change="changeTabs2" class="form-select col border border-dark" aria-label="Default select example">
+                <select  @change="changeTabs2" class="form-select col border border-dark" aria-label="Default select example">
                     <option selected disabled class="text-center">_______________________________________</option>
-                    <option  :value="cinema.item" v-for="(cinema,index) in cinemas" :key="index">{{cinema.item}}</option>
+                    <option :value="cinema.name" v-for="(cinema,index) in cinemas" :key="index">{{cinema.name}}</option>
                 </select>
             </div>
         </div>
-        <!---------------------------------phien 1-------------------->
-        <div v-if="tabSelect2==='Galaxy CMT8 - Cần Thơ'"> <!--truong hop tu uong voi changtabs2 thay doi -->
+        <!---------------------------------lấy suất chiếu-------------------->
+    <div v-for="(cinema,index0) in cinemas" :key="index0">
+        <div v-if="tabSelect2==cinema.name"> <!--truong hop tu uong voi changtabs2 thay doi -->
             <p class="bg-cinema text-white mb-3">CHỌN SUẤT CHIẾU</p>
-            <div class="row border border-dark mx-0 p-3 mb-2" v-for="(session,index1) in sessions" :key="index1">
+            <div class="row border border-dark mx-0 p-3 mb-2">
                 <div class="col">
                     <div class="mx-4">
                     <p class="p-1 color-text-title text-center mb-0 ">CHỌN NGÀY CHIẾU &ensp; <i class="fas fa-caret-down"></i></p>
                     <select @change="changeDate" class="form-select col border border-dark" aria-label="Default select example">
                         <option selected disabled class="text-center">_______________________________________</option>
-                        <option  :value="index2" v-for="(date,index2) in session.dates" :key="index2">{{date.dt}}</option>
+                        <option  :value="index1" v-for="(session,index1) in sessions" :key="index1" >{{session.date}}</option>
                     </select>  
                     </div>
                     
                 </div>
                 <div class="col" >
                     <p>Suất Chiếu Tại Rạp:</p>
-                    <div v-for="(hour,index3) in session.hours" :key="index3">
-                        <div v-if="tabDate == index3"><!--in danh sach phien hours bi rang buoc boi khi chon ngay-->
-                           <div class="form-check-inline"  @change="changeTabs3" v-for="(hr,index4) in hour.hrs" :key="index4" >
-                                <label class="form-check-label  btn btn-outline-dark mx-1">
-                                <input type="radio" class="form-check-input" :value="hr.item" name="optradio">{{hr.item}}               
+                    <div v-for="(film,index3) in films" :key="index3" >
+                        <div v-if="tabSelect1==film.name && tabDate!='null'"><!--in danh sach phien hours bi rang buoc boi khi chon phim-->
+                           <div class="form-check-inline"  @change="changeTabs3" v-for="(hour,index4) in film.hours" :key="index4">
+                                <label class="form-check-label  btn btn-outline-dark mx-1" @click="$event.target.classList.toggle('active')">
+                                <input type="radio" class="form-check-input" :value="hour.hrs" name="optradio" hidden>{{hour.hrs}}               
                                 </label>
                             </div>  
                         </div>                      
@@ -55,63 +56,27 @@
                 </div>
             </div>
         </div>
-        <!---------------------------------phien 2-------------------->
-        <div v-if="tabSelect2==='Galaxy Nguyễn Trãi - Cần Thơ'"> <!--truong hop tu uong voi changtabs2 thay doi -->
-            <p class="bg-cinema text-white mb-3">CHỌN SUẤT CHIẾU</p>
-            <div class="row border border-dark mx-0 p-3 mb-2" v-for="(session,index1) in sessions2" :key="index1">
-                <div class="col">
-                    <p class="p-2 color-text-title text-center mb-0">CHỌN NGÀY <i class="fas fa-caret-down"></i></p>
-                    <select @change="changeDate" class="form-select col border border-dark" aria-label="Default select example">
-                        <option selected disabled class="text-center">_______________________________________</option>
-                        <option  :value="index2" v-for="(date,index2) in session.dates" :key="index2">{{date.dt}}</option>
-                    </select>
-                </div>
-                <div class="col" >
-                    <p>Suất Chiếu Tại Rạp:</p>
-                    <div v-for="(hour,index3) in session.hours" :key="index3">
-                        <div v-if="tabDate == index3"><!--in danh sach phien hours bi rang buoc boi khi chon ngay-->
-                           <div class="form-check-inline"  @change="changeTabs3" v-for="(hr,index4) in hour.hrs" :key="index4" >
-                                <label class="form-check-label  btn btn-outline-dark mx-1">
-                                <input type="radio" class="form-check-input" :value="hr.item" name="optradio">{{hr.item}}               
-                                </label>
-                            </div>  
-                        </div>                      
-                    </div>  
+    </div>
+        <!--dat cho-->
+        <div v-if="tabSelect3!='null'"> 
+            <p class="bg-cinema text-white mb-3">CHỌN VỊ TRÍ GHẾ</p>
+            <div class="row border border-dark mx-0 p-3 mb-2 w-50 d-flex justify-content-center">
+                <div class="form-check-inline mb-1" v-for="seat in seats" :key="seat._id">
+                    <div v-if="seat.status=='còn chỗ'">
+                        <label class="form-check-label  btn btn-outline-dark" @click="$event.target.classList.toggle('active')">
+                        <input type="radio" class="form-check-input" name="optradio" :value="seat.name" v-model="getSeat" hidden>{{seat.name}}               
+                        </label>        
+                    </div>
                 </div>
             </div>
         </div>
-        <!---------------------------------phien 3-------------------->
-        <div v-if="tabSelect2==='Galaxy Hưng Lợi - Cần Thơ'"> <!--truong hop tu uong voi changtabs2 thay doi -->
-            <p class="bg-cinema text-white mb-3">CHỌN SUẤT CHIẾU</p>
-            <div class="row border border-dark mx-0 p-3 mb-2" v-for="(session,index1) in sessions3" :key="index1">
-                <div class="col">
-                    <p class="p-2 color-text-title text-center mb-0">CHỌN NGÀY <i class="fas fa-caret-down"></i></p>
-                    <select @change="changeDate" class="form-select col border border-dark" aria-label="Default select example">
-                        <option selected disabled class="text-center">_______________________________________</option>
-                        <option  :value="index2" v-for="(date,index2) in session.dates" :key="index2">{{date.dt}}</option>
-                    </select>
-                </div>
-                <div class="col" >
-                    <p>Suất Chiếu Tại Rạp:</p>
-                    <div v-for="(hour,index3) in session.hours" :key="index3">
-                        <div v-if="tabDate == index3"><!--in danh sach phien hours bi rang buoc boi khi chon ngay-->
-                           <div class="form-check-inline"  @change="changeTabs3" v-for="(hr,index4) in hour.hrs" :key="index4" >
-                                <label class="form-check-label  btn btn-outline-dark mx-1">
-                                <input type="radio" class="form-check-input" :value="hr.item" name="optradio">{{hr.item}}               
-                                </label>
-                            </div>  
-                        </div>                      
-                    </div>  
-                </div>
-            </div>
-        </div>
-        
+        <!--Combo-->
     <div class="row mt-2" v-if="tabSelect3!='null'">
         <div class="col-7">
             <h5>GÓI COMBO ĐỒ ĂN - THỨC UỐNG</h5>
             <div @change="changeTabs4">
-                <label class="form-check-label border border-dark btn btn-light col">
-                    <input value="ICOMBO Friends 2Big" type="radio" class="form-check-input" name="optradio">
+                <label class="form-check-label border border-dark btn btn-light col" >
+                    <input value="ICOMBO Friends 2Big" type="radio" class="form-check-input" name="optradio" hidden>
                         <h6 class="mt-5">ICOMBO Friends 2Big</h6>
                         <div class="mb-1">
                             <img src="https://www.galaxycine.vn/media/2022/8/19/friendscombofamilycombo2_1660896643423.jpg" alt="" width="100">
@@ -120,7 +85,7 @@
                         <p class="text-danger">Giá: 150.000 VNĐ</p>
                 </label>
                 <label class="form-check-label border border-dark btn btn-light col mt-1">
-                    <input value="L-COMBO Lovers 2Big" type="radio" class="form-check-input" name="optradio">
+                    <input value="L-COMBO Lovers 2Big" type="radio" class="form-check-input" name="optradio" hidden>
                         <h6 class="mt-5">L-COMBO Lovers 2Big</h6>
                         <div class="mb-1">
                             <img src="https://www.galaxycine.vn/media/2022/8/19/combo22022_1660884682886.jpg" alt="" width="100">
@@ -129,7 +94,7 @@
                         <p class="text-danger">Giá: 180.000 VNĐ</p>
                 </label>
                 <label class="form-check-label border border-dark btn btn-light col mt-1">
-                    <input value="E-COMBO Alone" type="radio" class="form-check-input" name="optradio">
+                    <input value="E-COMBO Alone" type="radio" class="form-check-input" name="optradio" hidden>
                         <h6 class="mt-5">E-COMBO Alone</h6>
                         <div class="mb-1">
                             <img src="https://www.galaxycine.vn/media/2022/8/22/combo122082022_1661161050442.png" alt="" width="100">
@@ -139,6 +104,7 @@
                 </label>
             </div>      
         </div>
+        <!--Vé-->
         <div class="col-5">
             <div class="bg-light shadow-content p-4 mx-lg-5">
                 <p><span>Tên khách hàng: </span>{{user.displayName}} </p>
@@ -146,14 +112,14 @@
                 <small class="text-danger mb-1">(*) Phim dành cho khán giả từ 13 tuổi trở lên</small>
                 <p><span>Suất Chiếu: </span> {{tabSelect3}} <small>AM | PM</small></p>
                 <div v-for="(cinema, index) in cinemas" :key="index">
-                  <p v-if="tabSelect2==index"><span>Tại Rạp: </span>{{cinema.item}} | Rạp 3</p>  
+                  <p v-if="tabSelect2==cinema.name"><span>Tại Rạp: </span>{{cinema.name}} | Rạp 3</p>  
                 </div>
                 <span v-if="tabDate==0">Thứ 7 - Ngày 08/10/2022</span>
                 <span v-else-if="tabDate==1">Chủ Nhật - Ngày 09/10/2022</span>
                 <span v-else>Thứ 2 - Ngày 10/10/2022</span>
                 <p class="mt-3"><span>Giá Vé: </span>  {{price}}.000 VNĐ</p>
                 <p><span>Combo: </span>{{tabSelect4}}  </p>
-                <p v-if="tabSelect4!=''"><span>Vị Trí Ghế:</span> {{seat=seats[random()].name}}</p>
+                <p><span>Vị Trí Ghế:</span> {{getSeat}}</p>
                 <h5 class="text-primary">Tổng Phí: {{subtotal = price + comBo()}}.000 VNĐ</h5>
 
                 <div class="d-flex justify-content-end" v-if="user!=null">
@@ -169,7 +135,7 @@
                 </div>
             </div>
             <!--Model-->
-            <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-body p-5">
@@ -215,7 +181,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-4">
-                                        <button class="text-white bg-cinema btn w-100"  @click="createdTicket">Thanh toán</button>
+                                        <button class="text-white bg-cinema btn w-100"  data-toggle="modal" data-target="#exampleModal" @click="createdTicket()">Thanh toán</button>
                                     </div>
                                 </form>  
                             </div>
@@ -239,68 +205,21 @@
     import firebase from "firebase"
     import API from "../../api/api_film"
     import APITicket from "../../api/api_ticket"
+    import APISeat from "../../api/api_seat"
+    import APICinema from "../../api/api_cinema"
+    import APISession from "../../api/api_session"
     //import {required} from '@vuelidate/validators'
     export default{     
         name: "PayTicketView",
     data() {
         return {
             films: [],
-            cinemas: [
-                {item: 'Galaxy CMT8 - Cần Thơ'},
-                {item: 'Galaxy Nguyễn Trãi - Cần Thơ'},
-                {item: 'Galaxy Hưng Lợi - Cần Thơ'},
-            ],
+            cinemas: [],
             //phien chieu rap thu 1
-            sessions: [
-                {
-                    dates: [{dt:'Thứ 7 - 08/10/2022'},{dt:'Chủ Nhật - 09/10/2022'}], title: '2D - Phụ Đề', 
-                    hours: [
-                        {
-                            hrs: [{item: '18:30'},{item: '19:10'},{item: '20:25'},{item: '22:00'}]
-                        },
-                        {
-                            hrs: [{item: '13:00'},{item: '14:20'},{item: '16:25'},{item: '17:45'}]
-                        }
-
-                    ]
-                },
-            ],
+            sessions: [],
             //phien chieu rap thu 2
-            sessions2: [
-                {
-                    dates: [{dt:'Thứ 7 - 08/10/2022'},{dt:'Chủ Nhật - 09/10/2022'},{dt:'Thứ 2 - 10/10/2022'}], title: '2D - Phụ Đề', 
-                    hours: [
-                        {
-                            hrs: [{item: '09:30'},{item: '11:10'},{item: '22:25'},{item: '23:00'}]
-                        },
-                        {
-                            hrs: [{item: '12:25'},{item: '14:20'},{item: '18:25'},{item: '20:15'}]
-                        },
-                        {
-                            hrs: [{item: '6:25'},{item: '8:20'},{item: '15:25'},{item: '23:15'}]
-                        }
-                    ]
-                },
-            ],
-            //phien chieu rap thu 3
-            sessions3: [
-                {
-                    dates: [{dt:'Thứ 7 - 08/10/2022'},{dt:'Chủ Nhật - 09/10/2022'},{dt:'Thứ 2 - 10/10/2022'}], title: '2D - Phụ Đề', 
-                    hours: [
-                        {
-                            hrs: [{item: '09:30'},{item: '11:10'},{item: '22:25'},{item: '23:00'}]
-                        },
-                        {
-                            hrs: [{item: '11:30'},{item: '12:10'},{item: '15:25'},{item: '16:05'}]
-                        },
-                        {
-                            hrs: [{item: '12:25'},{item: '14:20'},{item: '18:25'},{item: '20:15'}]
-                        }
-
-                    ]
-                },
-            ],
-            seats: [{name: 'B7'}, {name: 'A2'}, {name: 'B5'}, {name: 'G7'},{name:'H4'},{name:'K9'}],
+            seats:[],
+            getSeat: '',
             tabSelect1: "null", // lay ten phim
             tabSelect2: "null", // lay suat chieu cua rap
             tabSelect3: "null", // lay gio 
@@ -310,12 +229,14 @@
             combo: 0,
             message:"", // in thong bao
             subtotal: 0,
-            seat:"",
             user: null
         };
     },
     async created() {
         this.films = await API.findAll();
+        this.seats = await APISeat.findAll();
+        this.cinemas = await APICinema.findAll();
+        this.sessions= await APISession.findAll();
         firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.user = user;
@@ -352,28 +273,26 @@
                 return this.combo = 180;
             }
         },
-        random: function() {
-            return Math.floor(Math.random()*6);
-        },
         async createdTicket(){
             let data = {// luu gia tri de post qua backend xu ly
                 title: this.tabSelect1,
                 cinema: this.tabSelect2,
                 hour: this.tabSelect3,
                 date: this.tabDate,
-                seat: this.seat,
+                seat: this.getSeat,
                 subtotal: this.subtotal,
                 combo: this.tabSelect4,
                 username: this.user.displayName
             };
             try{
-                await this.$router.push('/ticket-manager')
-                APITicket.create(data);
+                
+                await APITicket.create(data);
+                this.$router.push('/ticket-manager')
                 
             }catch(e){
                 alert(e)
             }
-        } 
+        },
     },
     
     }
@@ -391,8 +310,11 @@
         font-weight: bold;
     }
     .border-cinema-router{
-        border: 2px solid #f26B38;;
+        border: 2px solid #f26B38;
         padding: 7px 15px;
-        background-color: #f26B38;;
+        background-color: #f26B38;
+    }
+    .active{
+        background-color: #f15821;
     }
 </style>
