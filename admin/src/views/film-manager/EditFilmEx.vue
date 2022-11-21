@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container font-weight-light">
         <div class="my-md-2 p-md-5">
            <form class="shadow-content p-4 font-label" @submit.prevent="updateFilm()">
                 <div>
-                    <h4 class="text-cinema text-center mt-md-1">CẬP NHẬT PHIM - PHIM SẮP KHỞI CHIẾU</h4>
+                    <h4 class="text-cinema text-center mt-md-1 font-weight-light">CẬP NHẬT PHIM - PHIM SẮP KHỞI CHIẾU</h4>
                     <div class="d-flex justify-content-center">
                         <img class="" src="https://pngimg.com/uploads/christmas/christmas_PNG17215.png" alt="" width="200px">
                     </div>

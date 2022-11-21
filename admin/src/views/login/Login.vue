@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center font-weight-light">
         <form class="w-50 mt-5 border p-3 shadow-content" @submit.prevent="adminLogin()">
             <!-- Email input -->
             <div class="text-center mb-lg-5">

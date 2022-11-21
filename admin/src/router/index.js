@@ -13,6 +13,7 @@ import BlogManager from '../views/blog-manager/BlogManager'
 import EventManager from '../views/event-manager/EventManager'
 import AddEvent from '../views/event-manager/AddEvent'
 import EditEvent from '../views/event-manager/EditEvent'
+import ClientManager from '../views/client-manager/ClientManager'
 Vue.use(VueRouter)
 
 const routes = [
@@ -80,6 +81,11 @@ const routes = [
     path: '/event-manager/edit-event/:id', // chinh sua su kien
     name: 'edit-event',
     component: EditEvent
+  },
+  {
+    path: '/client-manager', // quan ly nhan su
+    name: 'client-manager',
+    component: ClientManager
   },
   
 ]

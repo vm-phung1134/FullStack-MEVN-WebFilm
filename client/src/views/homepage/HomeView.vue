@@ -1,7 +1,18 @@
 <template>
   <v-container>
+    <!--phim dang chieu-->
+    <div class="row d-flex justify-content-between m-0">
+      <div>
+        <h5 class="">PHIM ĐANG CHIẾU</h5>
+        <div class="under-text"></div>
+      </div>
+      <div>
+        <input type="text" placeholder="Tìm phim đang chiếu" v-model="searchValue" class="border border-dark p-2 rounded">
+        <button class="p-2 color-text"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
     <v-row>
-      <v-col  sm="4" class="pa-3" v-for="film in films" :key="film._id">
+      <v-col  sm="4" class="pa-3" v-for="film in searchFilm" :key="film._id">
         <v-card class="text-decoration-none bg-light " :to="{name: 'film-detail', params: {id: film._id}}" link>
           <v-img height="380" :src="`${film.image}`"></v-img>
           <v-col>
@@ -32,7 +43,7 @@
         return {
             films: [],
             activeIndex: -1,
-            searchText: "",
+            searchValue: '',
         };
     },
     components:{
@@ -44,26 +55,14 @@
       }
     },
     computed:{
-      filmStrings(){
-        return this.films.map((film)=>{
-          const {title,name} = film;
-          return [title,name].join("");
-        });
-      },
-      filteredFilms(){
-        if(!this.searchText){
-          return this.films;
-        } 
-        return this.films.filter((_film, index) => 
-        this.filmStrings[index].includes(this.searchText)
-        );
-      },
-      activeFilm(){
-        if(this.activeIndex<0) return null;
-        return this.filteredFilms[this.activeIndex];
-      },
-      filteredFilmsCount(){
-        return this.filteredFilms.length;
+      searchFilm(){
+        if(this.searchValue){
+          return this.films.filter((item)=>{
+            return this.searchValue.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
+          })
+        }else{
+            return this.films;
+        }
       },
     },
     async created() {

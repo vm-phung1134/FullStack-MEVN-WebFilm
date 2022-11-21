@@ -12,7 +12,6 @@ import EventView from  '../views/event/EventView'
 import EventDetail from  '../views/event/EventDetail'
 import HelpView from '../views/support/HelpView'
 import Login from '../views/login/Login'
-import SearchView from '../views/SearchView'
 Vue.use(VueRouter)
 
 const routes = [
@@ -76,11 +75,6 @@ const routes = [
     name: 'login',
     component: Login
   },
-  {
-    path: '/search-view/:name',
-    name: 'search-view',
-    component: SearchView
-  }
 ]
 
 const router = new VueRouter({

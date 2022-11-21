@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div class="container font-weight-light">
         <div>
-            <h4 class="text-center text-cinema mt-md-3">QUẢN LÝ SỰ KIỆN</h4>
+            <h4 class="text-center text-cinema mt-md-3 font-weight-light">QUẢN LÝ SỰ KIỆN</h4>
             <div>
                 <router-link :to="{name: 'add-event'}">
                     <button class="btn hover-btn rounded-circle btn-add"><i class="fas fa-plus-circle"></i></button>

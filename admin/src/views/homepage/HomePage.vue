@@ -2,14 +2,13 @@
     <div class="p-3">
         <div class="mb-5 text-center">            
             <img src="https://www.galaxycine.vn/website/images/galaxy-logo.png" alt="" width="300px">
-            <h4 class="mt-5">WEBSITE QUẢN TRỊ VIÊN</h4>
-            <h5 class="mb-5">({{admin.email}})</h5>
+            <h4 class="mt-5 font-weight-light">WEBSITE QUẢN TRỊ VIÊN</h4>
         </div>
         <div class="row mb-5 d-flex justify-content-center">
             <div class="card col-lg col-sm-12 mx-md-1 text-center bg-cinema d-flex"  v-for="(card,index) in cards" :key="index">
                 <div class="card-body">
-                <h6 class="card-title">{{card.title}}</h6>
-                <p class="card-text">{{card.count}}</p>
+                <h6 class="card-title font-weight-light">{{card.title}}</h6>
+                <p class="card-text font-weight-light">{{card.count}}</p>
                 </div>
             </div>   
         </div>

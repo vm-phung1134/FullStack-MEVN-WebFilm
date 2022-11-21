@@ -33,13 +33,12 @@
 
     <v-app-bar app class="bg-dark">
       <v-app-bar-nav-icon class="text-white" @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <InputSearch></InputSearch>
-      <div class="text-white ml-5">
-        <button class="ml-5 p-2s" v-if="user!=null"> <!--neu khong ton tai user-->
+      <div class="text-white ">
+        <button class=" p-2s" v-if="user!=null"> <!--neu khong ton tai user-->
           <i class="fas fa-address-book"></i>&ensp;Xin chào - {{user.displayName}}
           <button class="btn btn-outline-danger ml-3" @click="logOut()">Đăng xuất</button>
         </button>
-        <button class="ml-5 p-2s" v-else-if="user==null"><!--neu co ton tai user-->
+        <button class=" p-2s" v-else-if="user==null"><!--neu co ton tai user-->
           <router-link :to="{ name: 'login'}" class="text-white text-decoration-none" link>
             <i class="fas fa-address-book"></i> &ensp;Đăng nhập 
           </router-link> 
@@ -60,7 +59,6 @@
 
 <script>
   import firebase from 'firebase'
-  import InputSearch from './components/InputSearch.vue'
   export default {
     name: "app",
     data: () => ({ 
@@ -75,9 +73,6 @@
         { title: 'hỗ trợ', icon: 'mdi-headset' , link: '/help'},
       ],
     }),
-    components: {
-      InputSearch
-    },
     created() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {

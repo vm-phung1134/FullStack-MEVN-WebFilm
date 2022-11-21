@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container font-weight-light">
         <div class="my-md-2 p-md-5">
            <form class="shadow-content p-4" @submit.prevent="createBlog()">
                 <div>

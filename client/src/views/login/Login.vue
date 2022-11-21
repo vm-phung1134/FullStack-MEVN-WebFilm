@@ -51,7 +51,7 @@
                 <div class="text-end">
                     <small class="text-decoration-none text-dark">Tôi đã đọc và đồng ý các CHÍNH SÁCH của chương trình</small>
                 </div>
-                <button type="submit" class="bg-cinema w-100">Đăng Ký</button>
+                <button type="submit" @click="createdClient" class="bg-cinema w-100">Đăng Ký</button>
                 
             </form>
         </div>
@@ -60,6 +60,7 @@
 </template>
 <script>
     import firebase from 'firebase'
+    import APIClient from '@/api/api_client'
     export default{
         data(){
             return {
@@ -85,10 +86,11 @@
                 .then((res) => {
                     res.user
                     .updateProfile({
-                        displayName: this.user.name
+                        displayName: this.user.name,
                     })
                     .then(() => {
-                        this.Tabselected="login"
+                        this.$router.push('/');
+                        console.log(this.user)
                     });
                 })
                 .catch((error) => {
@@ -105,7 +107,20 @@
                 .catch((error) => {
                     alert(error.message);
                 });
+            },
+            async createdClient(){
+            let client = {// luu gia tri de post qua backend xu ly
+                username: this.user.name,
+                email: this.user.email,
+                password: this.user.password
+            };
+            try{
+                await APIClient.create(client);
+                console.log('da them 1 thang vao db')  
+            }catch(e){
+                alert(e)
             }
+            },
         }
     }
 </script>

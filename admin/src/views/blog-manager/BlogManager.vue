@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h4 class="mt-3 text-cinema text-center">QUẢN LÝ BlOG ĐIỆN ẢNH</h4>
+        <h4 class="mt-3 text-cinema text-center font-weight-light">QUẢN LÝ BlOG ĐIỆN ẢNH</h4>
             <div>
                 <router-link :to="{name: 'add-blog'}">
                     <button class="btn hover-btn rounded-circle btn-add"><i class="fas fa-plus-circle"></i></button>
@@ -12,13 +12,13 @@
                         <img :src="`${blog.image}`"  width="230" height="150">
                     </div>
                     <div class="col-8">
-                        <h5 class="text-dark text-decoration-none">{{blog.title}}</h5>
-                        <small>{{blog.maincontent}}</small>
+                        <h5 class="text-dark text-decoration-none ">{{blog.title}}</h5>
+                        <small class="font-weight-light">{{blog.maincontent}}</small>
                         <div class="mt-4">
                             <router-link :to="{name: 'edit-blog', params: {id: blog._id}}">
-                                <button class="btn btn-cinema mr-2">Cập Nhật Blog</button>   
+                                <button class="btn btn-cinema mr-2 font-weight-light">Cập Nhật Blog</button>   
                             </router-link>
-                            <button @click="deleteBlog(blog._id)" class="btn btn-cinema">Xóa Blog</button>
+                            <button @click="deleteBlog(blog._id)" class="btn btn-cinema font-weight-light">Xóa Blog</button>
                         </div>
                     </div>
                 </div>
