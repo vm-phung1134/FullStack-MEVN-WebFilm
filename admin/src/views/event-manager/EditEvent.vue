@@ -1,7 +1,7 @@
 <template>
     <div class="container font-weight-light">
         <div class="my-md-2 p-md-5">
-           <form class="shadow-content p-4" @submit.prevent="updateEvent()">
+           <form class="shadow-content p-4 font-label" @submit.prevent="updateEvent()">
                 <div>
                     <h4 class="text-cinema text-center mt-md-1 font-weight-light">CẬP NHẬT SỰ KIỆN</h4>
                     <div class="d-flex justify-content-center">

@@ -22,7 +22,10 @@
                 <td>{{client.username}}</td>
                 <td>{{client.email}}</td>
                 <td>{{client.password}}</td>
-                <td><button class="btn btn-outline-danger" @click="onDelete(client._id, index)">Xóa</button></td>
+                <td class="text-center">
+                    <button class="text-danger hover-btn"><i class="fas fa-trash-alt" @click="onDelete(client._id, index)"></i></button>
+                </td>
+
               </tr>
             </tbody>
           </table>

@@ -14,6 +14,8 @@ import EventManager from '../views/event-manager/EventManager'
 import AddEvent from '../views/event-manager/AddEvent'
 import EditEvent from '../views/event-manager/EditEvent'
 import ClientManager from '../views/client-manager/ClientManager'
+import OrderManager from '../views/order-manager/OrderManager'
+import EditOrder from '../views/order-manager/EditOrder'
 Vue.use(VueRouter)
 
 const routes = [
@@ -86,6 +88,16 @@ const routes = [
     path: '/client-manager', // quan ly nhan su
     name: 'client-manager',
     component: ClientManager
+  },
+  {
+    path: '/order-manager', // quan ly dat ve
+    name: 'order-manager',
+    component: OrderManager
+  },
+  {
+    path: '/order-manager/edit-order/:id', // quan ly dat ve
+    name: 'edit-order',
+    component: EditOrder
   },
   
 ]

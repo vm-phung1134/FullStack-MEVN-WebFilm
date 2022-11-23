@@ -37,7 +37,7 @@
                     <p class="p-1 color-text-title text-center mb-0 ">CHỌN NGÀY CHIẾU &ensp; <i class="fas fa-caret-down"></i></p>
                     <select @change="changeDate" class="form-select col border border-dark" aria-label="Default select example">
                         <option selected disabled class="text-center">_______________________________________</option>
-                        <option  :value="index1" v-for="(session,index1) in sessions" :key="index1" >{{session.date}}</option>
+                        <option  :value="session.date" v-for="(session,index1) in sessions" :key="index1" >{{session.date}}</option>
                     </select>  
                     </div>
                     
@@ -114,9 +114,7 @@
                 <div v-for="(cinema, index) in cinemas" :key="index">
                   <p v-if="tabSelect2==cinema.name"><span>Tại Rạp: </span>{{cinema.name}} | Rạp 3</p>  
                 </div>
-                <span v-if="tabDate==0">Thứ 7 - Ngày 08/10/2022</span>
-                <span v-else-if="tabDate==1">Chủ Nhật - Ngày 09/10/2022</span>
-                <span v-else>Thứ 2 - Ngày 10/10/2022</span>
+                <p><span>Ngày chiếu: </span>{{tabDate}}</p>
                 <p class="mt-3"><span>Giá Vé: </span>  {{price}}.000 VNĐ</p>
                 <p><span>Combo: </span>{{tabSelect4}}  </p>
                 <p><span>Vị Trí Ghế:</span> {{getSeat}}</p>

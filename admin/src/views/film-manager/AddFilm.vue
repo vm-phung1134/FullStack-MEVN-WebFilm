@@ -1,7 +1,7 @@
 <template>
     <div class="container font-weight-light">
         <div class="my-md-2 p-md-5">
-           <form class="shadow-content p-4" @submit.prevent="createFilm()">
+           <form class="shadow-content p-4 font-label" @submit.prevent="createFilm()">
                 <div>
                     <h4 class="text-cinema text-center mt-md-1 font-weight-light">THÊM PHIM MỚI - PHIM ĐANG CHIẾU</h4>
                     <div class="d-flex justify-content-center">

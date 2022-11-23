@@ -84,7 +84,8 @@ import firebase from 'firebase';
         {title: 'QUẢN LÝ PHIM', link:'/film-manager'},
         {title: 'QUẢN LÝ BLOG', link:'/blog-manager'},
         {title: 'QUẢN LÝ SỰ KIỆN', link:'/event-manager'},
-        {title: 'QUẢN LÝ KHÁCH HÀNG', link:'/client-manager'}
+        {title: 'QUẢN LÝ KHÁCH HÀNG', link:'/client-manager'},
+        {title: 'QUẢN LÝ ĐẶT VÉ', link:'/order-manager'}
       ],
     }),
     created() {

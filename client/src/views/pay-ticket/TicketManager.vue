@@ -8,18 +8,16 @@
         </router-link>
     </button>
     <div class="row">
-        <div class="col-7" >
+        <div class="col-7">
             <div  class="row border ml-0 my-2"  v-for="(ticket, index) in tickets" :key="index">
-                <div class="col-4">
+                <div class="col-4" v-if="user.displayName==ticket.username">
                     <img src="https://ak.jogurucdn.com/media/image/p25/place-2018-01-10-10-bf61e21d99dec06ee6db2c823f26dae0.jpg" alt="" width="200px" height="210px">
                 </div>
-                <div class="col-8 pl-4">
+                <div class="col-8 pl-4" v-if="user.displayName==ticket.username">
                     <p>Tên khách hàng: <span>{{ticket.username}}</span></p>
                     <h6 class="text-uppercase text-cinema">Tên Phim: {{ticket.title}}</h6>
-                    <p >Tại Rạp: <span>{{ticket.cinema}}</span> | Rạp 3</p>
-                    <div v-for="(date, index2) in dates" :key="index2">
-                        <p v-if="ticket.date==index2">Thời Gian: {{date.dt}} | {{ticket.hour}} <small>AM|PM</small></p>
-                    </div>
+                    <p>Tại Rạp: <span>{{ticket.cinema}}</span> | Rạp 3</p>
+                    <p>Thời Gian: {{ticket.date}} | {{ticket.hour}}</p>
                     <p>Vị trí ghế: {{ticket.seat}}</p>
                     <p>Gói Combo: {{ticket.combo}} </p>
                     <p>Số tiền đã thanh toán: <span>{{ticket.subtotal}}.000 VNĐ</span></p>
@@ -67,6 +65,7 @@
 <script>
     import APITicket from "../../api/api_ticket"
     import APIEvent from "../../api/api_event"
+    import firebase from 'firebase'
     import FooterView from '../../components/FooterView.vue'
     export default{     
         name: "TicketManager",
@@ -75,11 +74,7 @@
             tickets: [],
             events: [],
             count: 3,
-            dates: [
-                {dt:'Thứ 7 - 08/10/2022'},
-                {dt:'Chủ Nhật - 09/10/2022'},
-                {dt:'Thứ 2 - 10/10/2022'}               
-            ], 
+            user: null
         } 
     },
     methods: {
@@ -99,6 +94,13 @@
     async created() {
         this.tickets = await APITicket.findAll();
         this.events = await APIEvent.findAll();
+        firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.user = user;
+        } else {
+          this.user = null;
+        }
+      });
     },
     components: { FooterView },
     }
