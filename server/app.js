@@ -6,9 +6,11 @@ const ticketsRouter = require("./app/routes/ticket.route");
 const filmsExpected = require("./app/routes/film.ex.route");
 const eventsRouter = require("./app/routes/event.route");
 const seatsRouter = require("./app/routes/seat.route");
+const roomsRouter = require("./app/routes/room.route");
 const cinemasRouter = require("./app/routes/cinema.route");
 const sessionsRouter = require("./app/routes/session.route");
-const clientsRouter = require("./app/routes/client.route")
+const clientsRouter = require("./app/routes/client.route");
+const combosRouter = require("./app/routes/combo.route");
 const ApiError = require("./app/api-error");
 
 const app = express();
@@ -26,6 +28,8 @@ app.use("/api/seats",seatsRouter);
 app.use("/api/cinemas",cinemasRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/clients", clientsRouter);
+app.use("/api/rooms", roomsRouter);
+app.use("/api/combos", combosRouter);
 // handle 404 response
 app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));

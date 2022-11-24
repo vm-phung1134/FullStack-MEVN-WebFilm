@@ -1,43 +1,38 @@
 const { ObjectId } = require("mongodb");
 
-class TicketModel {
+class ComboModel {
     constructor(client) {
-        this.ticket = client.db().collection("tickets");
+        this.combo = client.db().collection("combos");
     }
 
     extractConactData(payload) {
-        const ticket = {
-            title: payload.title,
-            cinema: payload.cinema,
-            date: payload.date,
-            hour: payload.hour,
-            combo: payload.combo,
-            seat: payload.seat,
-            subtotal: payload.subtotal,
-            username: payload.username,
-            room: payload.room
+        const combo = {
+            name: payload.name,
+            price: payload.price,
+            img: payload.img,
+            title: payload.title
         };
 
         // remove undefined fields
-        Object.keys(ticket).forEach(
-            (key) => ticket[key] === undefined && delete ticket[key]
+        Object.keys(combo).forEach(
+            (key) => combo[key] === undefined && delete combo[key]
         );
 
-        return ticket;
+        return combo;
     }
 
     async create(payload) {
-        const ticket = this.extractConactData(payload);
-        const result = await this.ticket.findOneAndUpdate(
-            ticket,
-            { $set: { favorite: ticket.favorite === true } },
+        const combo = this.extractConactData(payload);
+        const result = await this.combo.findOneAndUpdate(
+            combo,
+            { $set: { favorite: combo.favorite === true } },
             { returnDocument: "after", upsert: true }
         );
         return result.value;
     }
 
     async find(filter) {
-        const cursor = await this.ticket.find(filter);
+        const cursor = await this.combo.find(filter);
         return await cursor.toArray();
     }
 
@@ -48,7 +43,7 @@ class TicketModel {
     }
 
     async findById(id) {
-        return await this.ticket.findOne({
+        return await this.combo.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -59,7 +54,7 @@ class TicketModel {
         };
 
         const update = this.extractConactData(payload);
-        const result = await this.ticket.findOneAndUpdate(
+        const result = await this.combo.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -69,15 +64,15 @@ class TicketModel {
     }
 
     async delete(id) {
-        const result = await this.ticket.findOneAndDelete({
+        const result = await this.combo.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
     async deleteAll() {
-        const result = await this.ticket.deleteMany({});
+        const result = await this.combo.deleteMany({});
         return result.deletedCount;
     }
 }
 
-module.exports = TicketModel;
+module.exports = ComboModel;

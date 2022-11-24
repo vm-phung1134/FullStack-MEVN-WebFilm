@@ -1,0 +1,15 @@
+const express = require("express");
+const rooms = require("../controllers/room.controllers");
+const router = express.Router();
+router
+    .route("/")
+    .get(rooms.findAll)
+    .post(rooms.create)
+    .delete(rooms.deleteAll);
+router
+    .route("/:id")
+    .get(rooms.findOne)
+    .put(rooms.update)
+    .delete(rooms.delete);
+
+module.exports = router;

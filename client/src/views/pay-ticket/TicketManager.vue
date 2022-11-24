@@ -16,7 +16,7 @@
                 <div class="col-8 pl-4" v-if="user.displayName==ticket.username">
                     <p>Tên khách hàng: <span>{{ticket.username}}</span></p>
                     <h6 class="text-uppercase text-cinema">Tên Phim: {{ticket.title}}</h6>
-                    <p>Tại Rạp: <span>{{ticket.cinema}}</span> | Rạp 3</p>
+                    <p>Tại Rạp: <span>{{ticket.cinema}}</span> | {{ticket.room}}</p>
                     <p>Thời Gian: {{ticket.date}} | {{ticket.hour}}</p>
                     <p>Vị trí ghế: {{ticket.seat}}</p>
                     <p>Gói Combo: {{ticket.combo}} </p>

@@ -112,7 +112,7 @@
                 <small class="text-danger mb-1">(*) Phim dành cho khán giả từ 13 tuổi trở lên</small>
                 <p><span>Suất Chiếu: </span> {{tabSelect3}} <small>AM | PM</small></p>
                 <div v-for="(cinema, index) in cinemas" :key="index">
-                  <p v-if="tabSelect2==cinema.name"><span>Tại Rạp: </span>{{cinema.name}} | Rạp 3</p>  
+                  <p v-if="tabSelect2==cinema.name"><span>Tại Rạp: </span>{{cinema.name}} | {{ rm = rooms[random()].name}}</p>  
                 </div>
                 <p><span>Ngày chiếu: </span>{{tabDate}}</p>
                 <p class="mt-3"><span>Giá Vé: </span>  {{price}}.000 VNĐ</p>
@@ -206,6 +206,7 @@
     import APISeat from "../../api/api_seat"
     import APICinema from "../../api/api_cinema"
     import APISession from "../../api/api_session"
+    import APIRoom from "../../api/api_room"
     //import {required} from '@vuelidate/validators'
     export default{     
         name: "PayTicketView",
@@ -215,6 +216,7 @@
             cinemas: [],
             //phien chieu rap thu 1
             sessions: [],
+            rooms:[],
             //phien chieu rap thu 2
             seats:[],
             getSeat: '',
@@ -227,6 +229,7 @@
             combo: 0,
             message:"", // in thong bao
             subtotal: 0,
+            rm:'',
             user: null
         };
     },
@@ -235,6 +238,7 @@
         this.seats = await APISeat.findAll();
         this.cinemas = await APICinema.findAll();
         this.sessions= await APISession.findAll();
+        this.rooms= await APIRoom.findAll();
         firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.user = user;
@@ -280,7 +284,8 @@
                 seat: this.getSeat,
                 subtotal: this.subtotal,
                 combo: this.tabSelect4,
-                username: this.user.displayName
+                username: this.user.displayName,
+                room: this.rm
             };
             try{
                 
@@ -291,6 +296,9 @@
                 alert(e)
             }
         },
+        random(){
+            return Math.floor(Math.random()*3);
+        }
     },
     
     }

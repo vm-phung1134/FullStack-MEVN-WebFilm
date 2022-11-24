@@ -1,43 +1,37 @@
 const { ObjectId } = require("mongodb");
 
-class TicketModel {
+class RoomModel {
     constructor(client) {
-        this.ticket = client.db().collection("tickets");
+        this.room = client.db().collection("rooms");
     }
 
     extractConactData(payload) {
-        const ticket = {
-            title: payload.title,
-            cinema: payload.cinema,
-            date: payload.date,
-            hour: payload.hour,
-            combo: payload.combo,
-            seat: payload.seat,
-            subtotal: payload.subtotal,
-            username: payload.username,
-            room: payload.room
+        const room = {
+            name: payload.name,
+            quantity: payload.quantity,
+            status: payload.status
         };
 
         // remove undefined fields
-        Object.keys(ticket).forEach(
-            (key) => ticket[key] === undefined && delete ticket[key]
+        Object.keys(room).forEach(
+            (key) => room[key] === undefined && delete room[key]
         );
 
-        return ticket;
+        return room;
     }
 
     async create(payload) {
-        const ticket = this.extractConactData(payload);
-        const result = await this.ticket.findOneAndUpdate(
-            ticket,
-            { $set: { favorite: ticket.favorite === true } },
+        const room = this.extractConactData(payload);
+        const result = await this.room.findOneAndUpdate(
+            room,
+            { $set: { favorite: room.favorite === true } },
             { returnDocument: "after", upsert: true }
         );
         return result.value;
     }
 
     async find(filter) {
-        const cursor = await this.ticket.find(filter);
+        const cursor = await this.room.find(filter);
         return await cursor.toArray();
     }
 
@@ -48,7 +42,7 @@ class TicketModel {
     }
 
     async findById(id) {
-        return await this.ticket.findOne({
+        return await this.room.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -59,7 +53,7 @@ class TicketModel {
         };
 
         const update = this.extractConactData(payload);
-        const result = await this.ticket.findOneAndUpdate(
+        const result = await this.room.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -69,15 +63,15 @@ class TicketModel {
     }
 
     async delete(id) {
-        const result = await this.ticket.findOneAndDelete({
+        const result = await this.room.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
     async deleteAll() {
-        const result = await this.ticket.deleteMany({});
+        const result = await this.room.deleteMany({});
         return result.deletedCount;
     }
 }
 
-module.exports = TicketModel;
+module.exports = RoomModel;
