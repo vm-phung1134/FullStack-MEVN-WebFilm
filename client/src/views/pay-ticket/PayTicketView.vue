@@ -72,40 +72,22 @@
         </div>
         <!--Combo-->
     <div class="row mt-2" v-if="tabSelect3!='null'">
-        <div class="col-7">
+        <div class="col-md-7 col-12">
             <h5>GÓI COMBO ĐỒ ĂN - THỨC UỐNG</h5>
-            <div @change="changeTabs4">
+            <div @change="changeTabs4" v-for="combo in combos" :key="combo._id">
                 <label class="form-check-label border border-dark btn btn-light col" >
-                    <input value="ICOMBO Friends 2Big" type="radio" class="form-check-input" name="optradio" hidden>
-                        <h6 class="mt-5">ICOMBO Friends 2Big</h6>
+                    <input :value="combo.title" type="radio" class="form-check-input" name="optradio" hidden>
+                        <h6 class="mt-5">{{combo.title}}</h6>
                         <div class="mb-1">
-                            <img src="https://www.galaxycine.vn/media/2022/8/19/friendscombofamilycombo2_1660896643423.jpg" alt="" width="100">
+                            <img :src="`${combo.image}`" alt="" width="100">
                         </div>
-                        <p>2 Bắp Size S + 2 Nước 32 Oz (LipTon/Suối/Pepsi/Coca) + 2 Snack</p>
-                        <p class="text-danger">Giá: 150.000 VNĐ</p>
-                </label>
-                <label class="form-check-label border border-dark btn btn-light col mt-1">
-                    <input value="L-COMBO Lovers 2Big" type="radio" class="form-check-input" name="optradio" hidden>
-                        <h6 class="mt-5">L-COMBO Lovers 2Big</h6>
-                        <div class="mb-1">
-                            <img src="https://www.galaxycine.vn/media/2022/8/19/combo22022_1660884682886.jpg" alt="" width="100">
-                        </div>
-                        <p>1 Bắp Size L + 2 Nước 33 Oz (LipTon/Suối/Pepsi/Coca) + 1 Snack Lớn</p>
-                        <p class="text-danger">Giá: 180.000 VNĐ</p>
-                </label>
-                <label class="form-check-label border border-dark btn btn-light col mt-1">
-                    <input value="E-COMBO Alone" type="radio" class="form-check-input" name="optradio" hidden>
-                        <h6 class="mt-5">E-COMBO Alone</h6>
-                        <div class="mb-1">
-                            <img src="https://www.galaxycine.vn/media/2022/8/22/combo122082022_1661161050442.png" alt="" width="100">
-                        </div>
-                        <p>1 Bắp Size S + 1 Nước 22 Oz (LipTon/Suối/Pepsi/Coca) + 1 Snack XS</p>
-                        <p class="text-danger">Giá: 75.000 VNĐ</p>
+                        <p >{{combo.name}}</p>
+                        <p class="text-danger">Giá: {{combo.price}}.000 VNĐ</p>
                 </label>
             </div>      
         </div>
         <!--Vé-->
-        <div class="col-5">
+        <div class="col-12 col-md-5">
             <div class="bg-light shadow-content p-4 mx-lg-5">
                 <p><span>Tên khách hàng: </span>{{user.displayName}} </p>
                 <h6 class="text-uppercase"><span>Tên Phim: </span> {{tabSelect1}}</h6>
@@ -120,10 +102,19 @@
                 <p><span>Vị Trí Ghế:</span> {{getSeat}}</p>
                 <h5 class="text-primary">Tổng Phí: {{subtotal = price + comBo()}}.000 VNĐ</h5>
 
-                <div class="d-flex justify-content-end" v-if="user!=null">
-                    <button  class="border-cinema-router text-white" data-toggle="modal" data-target="#exampleModal">
+                <div class="d-flex row justify-content-end" v-if="user!=null">
+                    <div class="col-8">
+                        <p>Chọn hình thức thanh toán</p>
+                        <select v-model="getCheckout" class="form-control text-dark focus-btn border border-dark">
+                        <option v-for="(checkout,index) in checkouts" :key="index">{{checkout.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col" v-if="getCheckout!=''">
+                       <button  class="border-cinema-router text-white" data-toggle="modal" data-target="#exampleModal">
                         ĐẶT VÉ
-                    </button> 
+                        </button>  
+                    </div>
+                    
                 </div>
                 <!--@click="createdTicket"-->
                 <div class="d-flex justify-content-end" v-else-if="user==null">
@@ -137,11 +128,11 @@
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-body p-5">
-                        <div class="row">
-                            <div class="col-7">
+                        <div class="row" v-for="(checkout,index) in checkouts" :key="index">
+                            <div class="col-7" v-if="checkout.name == getCheckout">
                                 <div class="mb-4">
                                     <img src="https://www.galaxycine.vn/website/images/galaxy-logo.png" alt="" width="100px">
-                                    <h4>Thanh toán trực tuyến - MOMO</h4>   
+                                    <h4>Thanh toán trực tuyến - {{checkout.name}}</h4>   
                                 </div>
                                 <form>
                                     <div class="form-group row d-flex align-items-center">
@@ -183,9 +174,9 @@
                                     </div>
                                 </form>  
                             </div>
-                            <div class="col">
+                            <div class="col"  v-if="checkout.name == getCheckout">
                                 <div class="d-flex justify-content-center">
-                                    <img src="https://dl.memuplay.com/new_market/img/com.mservice.momotransfer.sc0.2022-06-30-00-37-38.jpg" width="260px">
+                                    <img :src="`${checkout.image}`" width="260px">
                                 </div>
                             </div>
                         </div>
@@ -207,6 +198,8 @@
     import APICinema from "../../api/api_cinema"
     import APISession from "../../api/api_session"
     import APIRoom from "../../api/api_room"
+    import APICombo from "../../api/api_combo"
+    import APICheckout from "../../api/api_checkout"
     //import {required} from '@vuelidate/validators'
     export default{     
         name: "PayTicketView",
@@ -217,9 +210,12 @@
             //phien chieu rap thu 1
             sessions: [],
             rooms:[],
+            combos:[],
             //phien chieu rap thu 2
             seats:[],
+            checkouts:[],
             getSeat: '',
+            getCheckout: '',
             tabSelect1: "null", // lay ten phim
             tabSelect2: "null", // lay suat chieu cua rap
             tabSelect3: "null", // lay gio 
@@ -239,6 +235,8 @@
         this.cinemas = await APICinema.findAll();
         this.sessions= await APISession.findAll();
         this.rooms= await APIRoom.findAll();
+        this.combos= await APICombo.findAll();
+        this.checkouts= await APICheckout.findAll();
         firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.user = user;
@@ -288,10 +286,8 @@
                 room: this.rm
             };
             try{
-                
-                await APITicket.create(data);
-                this.$router.push('/ticket-manager')
-                
+                await alert('Bạn đã đặt vé thành công!!!');
+                APITicket.create(data);    
             }catch(e){
                 alert(e)
             }
@@ -322,5 +318,9 @@
     }
     .active{
         background-color: #f15821;
+    }
+    .focus-btn:focus{
+        box-shadow: none;
+        outline: none;
     }
 </style>

@@ -1,38 +1,36 @@
 const { ObjectId } = require("mongodb");
 
-class ComboModel {
+class CheckoutModel {
     constructor(client) {
-        this.combo = client.db().collection("combos");
+        this.checkout = client.db().collection("checkouts");
     }
 
     extractConactData(payload) {
-        const combo = {
+        const checkout = {
             name: payload.name,
-            price: payload.price,
             image: payload.image,
-            title: payload.title
         };
 
         // remove undefined fields
-        Object.keys(combo).forEach(
-            (key) => combo[key] === undefined && delete combo[key]
+        Object.keys(checkout).forEach(
+            (key) => checkout[key] === undefined && delete checkout[key]
         );
 
-        return combo;
+        return checkout;
     }
 
     async create(payload) {
-        const combo = this.extractConactData(payload);
-        const result = await this.combo.findOneAndUpdate(
-            combo,
-            { $set: { favorite: combo.favorite === true } },
+        const checkout = this.extractConactData(payload);
+        const result = await this.checkout.findOneAndUpdate(
+            checkout,
+            { $set: { favorite: checkout.favorite === true } },
             { returnDocument: "after", upsert: true }
         );
         return result.value;
     }
 
     async find(filter) {
-        const cursor = await this.combo.find(filter);
+        const cursor = await this.checkout.find(filter);
         return await cursor.toArray();
     }
 
@@ -43,7 +41,7 @@ class ComboModel {
     }
 
     async findById(id) {
-        return await this.combo.findOne({
+        return await this.checkout.findOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
     }
@@ -54,7 +52,7 @@ class ComboModel {
         };
 
         const update = this.extractConactData(payload);
-        const result = await this.combo.findOneAndUpdate(
+        const result = await this.checkout.findOneAndUpdate(
             filter,
             { $set: update },
             { returnDocument: "after" }
@@ -64,15 +62,11 @@ class ComboModel {
     }
 
     async delete(id) {
-        const result = await this.combo.findOneAndDelete({
+        const result = await this.checkout.findOneAndDelete({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
         return result.value;
     }
-    async deleteAll() {
-        const result = await this.combo.deleteMany({});
-        return result.deletedCount;
-    }
 }
 
-module.exports = ComboModel;
+module.exports = CheckoutModel;

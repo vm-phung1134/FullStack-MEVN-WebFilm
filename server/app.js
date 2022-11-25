@@ -11,6 +11,7 @@ const cinemasRouter = require("./app/routes/cinema.route");
 const sessionsRouter = require("./app/routes/session.route");
 const clientsRouter = require("./app/routes/client.route");
 const combosRouter = require("./app/routes/combo.route");
+const checkoutsRouter = require("./app/routes/checkout.route");
 const ApiError = require("./app/api-error");
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api/clients", clientsRouter);
 app.use("/api/rooms", roomsRouter);
 app.use("/api/combos", combosRouter);
+app.use("/api/checkouts", checkoutsRouter);
 // handle 404 response
 app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));
